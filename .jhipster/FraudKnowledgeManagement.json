@@ -1,0 +1,199 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122229",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "fraud_knowledge_management",
+  "fields": [
+    {
+      "fieldName": "reportNumber",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "fraudIncident",
+      "fieldType": "FraudTypeByIncident",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTUAL,ATTEMPT"
+    },
+    {
+      "fieldName": "actualIncident",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "attemptIncident",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "reasonForFailure",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "unit",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "incidentDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateOfDetection",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "reasonForDelay",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "projectCreationDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "reportDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "suspectedFraudster",
+      "fieldType": "SuspectedFraudster",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "INTERNAL,EXTERNAL"
+    },
+    {
+      "fieldName": "financialLossAmount",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "actualFraudAmount",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "debitAccount",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "creditAccount",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "techniquesandTechnologiesUsed",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "causeForAnIncident",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "systemAndProceduralLoophole",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "effect",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "recommendationsDrawn",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "positionJG",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameIdNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "actionInvolved",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngScreenerReport",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "committeeDecision",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "measureTaken",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fraudAmountRecovered",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fraudAmountWrittenOff",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "previouslyHeldForFraudOutstanding",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "FraudKnowledgeManagement",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "employee",
+      "relationshipName": "employee",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "fraudInvestigationReport",
+      "relationshipName": "fraudInvestigationReport",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "fraudName",
+      "otherEntityName": "fraudType",
+      "relationshipName": "fraudType",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "bankName",
+      "otherEntityName": "bankAccount",
+      "relationshipName": "bankAccount",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "serviceName",
+      "otherEntityName": "bankService",
+      "relationshipName": "bankService",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "internalEmployee",
+      "relationshipName": "internalEmployee",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "externalEmployee",
+      "relationshipName": "externalEmployee",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

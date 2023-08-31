@@ -1,0 +1,25 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122234",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "bank_service",
+  "fields": [
+    {
+      "fieldName": "serviceName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "BankService",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

@@ -1,0 +1,146 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122227",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "fraud_investigation_report",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "executiveSummary",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "introductionAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "introduction",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "objective",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "objectiveAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "scope",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "scopeAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "limitation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "limitationAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "methodology",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "methodologyAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "findingAndAnalysis",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "findingAndAnalysisAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "conclusion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "conclusionAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "recommendation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recommendationAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "nameOfMembers",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "signature",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "references",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "publicationDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "author",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "FraudInvestigationReport",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "employee",
+      "relationshipName": "employee",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "task",
+      "relationshipName": "task",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "teamName",
+      "otherEntityName": "team",
+      "relationshipName": "team",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "findings",
+      "otherEntityRelationshipName": "fraudInvestigationReport",
+      "relationshipName": "findings",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

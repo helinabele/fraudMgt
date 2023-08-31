@@ -1,0 +1,66 @@
+<h2 id="page-heading" data-cy="FraudKnowledgeManagementHeading">
+  <span>Quarterly Investigation Performance Report</span>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <!-- <fa-icon [icon]="['fas', 'sync']" [spin]="isLoading"></fa-icon> -->
+      <span jhiTranslate="fraudMgt.fraudKnowledgeManagement.home.refreshListLabel">Refresh list</span>
+    </button>
+  </div>
+</h2>
+
+<form (submit)="submitFilter()" class="row">
+  <div class="col-md-3">
+    <div class="form-group">
+      <label for="startDate">Start:</label>
+      <input id="startDate" type="date" class="form-control" [(ngModel)]="startDate" (change)="getFraudKnowledgeMgt()">
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <label for="endDate">End:</label>
+      <input id="endDate" type="date" class="form-control" [(ngModel)]="endDate" (change)="getFraudKnowledgeMgt()">
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <label for="listSearch">Search:</label>
+      <input type="text" class="form-control" [(ngModel)]="searchText" id="listSearch" placeholder="Search">
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <label for="selectedMovie">Movie:</label>
+      <select class="form-control" [(ngModel)]="selectedReport">
+        <option *ngFor="let case of fraudKnowledgeManagements" [value]="case.bankService">
+          {{case.fraudInvestigationReport?.title}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+</form>
+<table class="fraud-report-table">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Fraud Type</th>
+      <th>Frequency</th>
+
+    </tr>
+  </thead>
+  <tbody *ngIf="fraudKnowledgeManagements?.length; else noReports">
+    <tr *ngFor="let report of fraudKnowledgeManagements; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ report.fraudInvestigationReport?.title }}</td>
+      <td>{{ fraudTypeCounts[report.fraudInvestigationReport?.title ?? ''] || 0 }}</td>      
+    </tr>
+  </tbody>
+  <ng-template #noReports>
+    <tr>
+      <td colspan="3">No reports found.</td>
+    </tr>
+  </ng-template>
+
+</table>

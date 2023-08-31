@@ -1,0 +1,76 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122226",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "assign_task",
+  "fields": [
+    {
+      "fieldName": "taskAssignmentDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "taskStartDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "taskEndDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "attachment",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "AssignTask",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "directorName",
+      "otherEntityName": "director",
+      "relationshipName": "director",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "managerialName",
+      "otherEntityName": "managerial",
+      "relationshipName": "manager",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "teamLeadName",
+      "otherEntityName": "teamLead",
+      "relationshipName": "teamLead",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "employee",
+      "relationshipName": "employee",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "task",
+      "otherEntityRelationshipName": "assignedTask",
+      "relationshipName": "task",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "teamName",
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "assignTask",
+      "relationshipName": "team",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

@@ -1,0 +1,65 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="whistleBlowerReport">
+      <h2 data-cy="whistleBlowerReportDetailsHeading">
+        <span jhiTranslate="fraudMgtApp.whistleBlowerReport.detail.title">Whistle Blower Report</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ whistleBlowerReport.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.whistleBlowerReport.fullName">Full Name</span></dt>
+        <dd>
+          <span>{{ whistleBlowerReport.fullName }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.whistleBlowerReport.genderType">Gender Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'fraudMgtApp.Gender.' + whistleBlowerReport.genderType }}">{{ whistleBlowerReport.genderType }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.whistleBlowerReport.emailAdress">Email Adress</span></dt>
+        <dd>
+          <span>{{ whistleBlowerReport.emailAdress }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.whistleBlowerReport.phone">Phone</span></dt>
+        <dd>
+          <span>{{ whistleBlowerReport.phone }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.whistleBlowerReport.organization">Organization</span></dt>
+        <dd>
+          <span>{{ whistleBlowerReport.organization }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.whistleBlowerReport.message">Message</span></dt>
+        <dd>
+          <span>{{ whistleBlowerReport.message }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.whistleBlowerReport.attachment">Attachment</span></dt>
+        <dd>
+          <div *ngIf="whistleBlowerReport.attachment">
+            <a
+              (click)="openFile(whistleBlowerReport.attachment, whistleBlowerReport.attachmentContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            {{ whistleBlowerReport.attachmentContentType }}, {{ byteSize(whistleBlowerReport.attachment) }}
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

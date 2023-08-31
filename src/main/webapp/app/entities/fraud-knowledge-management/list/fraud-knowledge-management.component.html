@@ -1,0 +1,404 @@
+<div>
+  <h2 id="page-heading" data-cy="FraudKnowledgeManagementHeading">
+    <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.home.title">Fraud Knowledge Managements</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-fraud-knowledge-management"
+        [routerLink]="['/fraud-knowledge-management/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.home.createLabel"> Create a new Fraud Knowledge Management </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="fraudKnowledgeManagements?.length === 0">
+    <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.home.notFound">No Fraud Knowledge Managements found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="fraudKnowledgeManagements && fraudKnowledgeManagements.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reportNumber">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.reportNumber">Report Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fraudIncident">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.fraudIncident">Fraud Incident</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="actualIncident">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.actualIncident">Actual Incident</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="attemptIncident">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.attemptIncident">Attempt Incident</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reasonForFailure">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.reasonForFailure">Reason For Failure</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="unit">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.unit">Unit</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="incidentDate">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.incidentDate">Incident Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dateOfDetection">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.dateOfDetection">Date Of Detection</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reasonForDelay">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.reasonForDelay">Reason For Delay</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="projectCreationDate">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.projectCreationDate">Project Creation Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reportDate">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.reportDate">Report Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="suspectedFraudster">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.suspectedFraudster">Suspected Fraudster</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="financialLossAmount">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.financialLossAmount">Financial Loss Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="actualFraudAmount">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.actualFraudAmount">Actual Fraud Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="debitAccount">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.debitAccount">Debit Account</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="creditAccount">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.creditAccount">Credit Account</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="techniquesandTechnologiesUsed">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.techniquesandTechnologiesUsed">Techniquesand Technologies Used</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="causeForAnIncident">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.causeForAnIncident">Cause For An Incident</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="systemAndProceduralLoophole">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.systemAndProceduralLoophole">System And Procedural Loophole</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="effect">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.effect">Effect</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recommendationsDrawn">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.recommendationsDrawn">Recommendations Drawn</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="positionJG">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.positionJG">Position JG</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="nameIdNo">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.nameIdNo">Name Id No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="actionInvolved">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.actionInvolved">Action Involved</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="ngScreenerReport">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.ngScreenerReport">Ng Screener Report</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="committeeDecision">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.committeeDecision">Committee Decision</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="measureTaken">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.measureTaken">Measure Taken</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fraudAmountRecovered">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.fraudAmountRecovered">Fraud Amount Recovered</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fraudAmountWrittenOff">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.fraudAmountWrittenOff">Fraud Amount Written Off</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="previouslyHeldForFraudOutstanding">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.previouslyHeldForFraudOutstanding"
+                >Previously Held For Fraud Outstanding</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="employee.name">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.employee">Employee</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fraudInvestigationReport.title">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.fraudInvestigationReport">Fraud Investigation Report</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fraudType.fraudName">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.fraudType">Fraud Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bankAccount.bankName">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.bankAccount">Bank Account</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bankService.serviceName">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.bankService">Bank Service</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="internalEmployee.name">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.internalEmployee">Internal Employee</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="externalEmployee.name">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudKnowledgeManagement.externalEmployee">External Employee</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fraudKnowledgeManagement of fraudKnowledgeManagements; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/fraud-knowledge-management', fraudKnowledgeManagement.id, 'view']">{{ fraudKnowledgeManagement.id }}</a>
+          </td>
+          <td>{{ fraudKnowledgeManagement.reportNumber }}</td>
+          <td jhiTranslate="{{ 'fraudMgtApp.FraudTypeByIncident.' + fraudKnowledgeManagement.fraudIncident }}">
+            {{ fraudKnowledgeManagement.fraudIncident }}
+          </td>
+          <td>{{ fraudKnowledgeManagement.actualIncident }}</td>
+          <td>{{ fraudKnowledgeManagement.attemptIncident }}</td>
+          <td>{{ fraudKnowledgeManagement.reasonForFailure }}</td>
+          <td>{{ fraudKnowledgeManagement.unit }}</td>
+          <td>{{ fraudKnowledgeManagement.incidentDate | formatMediumDatetime }}</td>
+          <td>{{ fraudKnowledgeManagement.dateOfDetection | formatMediumDatetime }}</td>
+          <td>{{ fraudKnowledgeManagement.reasonForDelay }}</td>
+          <td>{{ fraudKnowledgeManagement.projectCreationDate | formatMediumDate }}</td>
+          <td>{{ fraudKnowledgeManagement.reportDate | formatMediumDate }}</td>
+          <td jhiTranslate="{{ 'fraudMgtApp.SuspectedFraudster.' + fraudKnowledgeManagement.suspectedFraudster }}">
+            {{ fraudKnowledgeManagement.suspectedFraudster }}
+          </td>
+          <td>{{ fraudKnowledgeManagement.financialLossAmount }}</td>
+          <td>{{ fraudKnowledgeManagement.actualFraudAmount }}</td>
+          <td>{{ fraudKnowledgeManagement.debitAccount }}</td>
+          <td>{{ fraudKnowledgeManagement.creditAccount }}</td>
+          <td>{{ fraudKnowledgeManagement.techniquesandTechnologiesUsed }}</td>
+          <td>{{ fraudKnowledgeManagement.causeForAnIncident }}</td>
+          <td>{{ fraudKnowledgeManagement.systemAndProceduralLoophole }}</td>
+          <td>{{ fraudKnowledgeManagement.effect }}</td>
+          <td>{{ fraudKnowledgeManagement.recommendationsDrawn }}</td>
+          <td>{{ fraudKnowledgeManagement.positionJG }}</td>
+          <td>{{ fraudKnowledgeManagement.nameIdNo }}</td>
+          <td>{{ fraudKnowledgeManagement.actionInvolved }}</td>
+          <td>{{ fraudKnowledgeManagement.ngScreenerReport }}</td>
+          <td>{{ fraudKnowledgeManagement.committeeDecision }}</td>
+          <td>{{ fraudKnowledgeManagement.measureTaken }}</td>
+          <td>{{ fraudKnowledgeManagement.fraudAmountRecovered }}</td>
+          <td>{{ fraudKnowledgeManagement.fraudAmountWrittenOff }}</td>
+          <td>{{ fraudKnowledgeManagement.previouslyHeldForFraudOutstanding }}</td>
+          <td>
+            <div *ngIf="fraudKnowledgeManagement.employee">
+              <a [routerLink]="['/employee', fraudKnowledgeManagement.employee.id, 'view']">{{ fraudKnowledgeManagement.employee.name }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="fraudKnowledgeManagement.fraudInvestigationReport">
+              <a [routerLink]="['/fraud-investigation-report', fraudKnowledgeManagement.fraudInvestigationReport.id, 'view']">{{
+                fraudKnowledgeManagement.fraudInvestigationReport.title
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="fraudKnowledgeManagement.fraudType">
+              <a [routerLink]="['/fraud-type', fraudKnowledgeManagement.fraudType.id, 'view']">{{
+                fraudKnowledgeManagement.fraudType.fraudName
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="fraudKnowledgeManagement.bankAccount">
+              <a [routerLink]="['/bank-account', fraudKnowledgeManagement.bankAccount.id, 'view']">{{
+                fraudKnowledgeManagement.bankAccount.bankName
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="fraudKnowledgeManagement.bankService">
+              <a [routerLink]="['/bank-service', fraudKnowledgeManagement.bankService.id, 'view']">{{
+                fraudKnowledgeManagement.bankService.serviceName
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="fraudKnowledgeManagement.internalEmployee">
+              <a [routerLink]="['/internal-employee', fraudKnowledgeManagement.internalEmployee.id, 'view']">{{
+                fraudKnowledgeManagement.internalEmployee.name
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="fraudKnowledgeManagement.externalEmployee">
+              <a [routerLink]="['/external-employee', fraudKnowledgeManagement.externalEmployee.id, 'view']">{{
+                fraudKnowledgeManagement.externalEmployee.name
+              }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/fraud-knowledge-management', fraudKnowledgeManagement.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/fraud-knowledge-management', fraudKnowledgeManagement.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(fraudKnowledgeManagement)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="fraudKnowledgeManagements && fraudKnowledgeManagements.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

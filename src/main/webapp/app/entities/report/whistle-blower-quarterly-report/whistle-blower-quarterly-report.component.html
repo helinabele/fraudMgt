@@ -1,0 +1,30 @@
+<h2 id="page-heading" data-cy="FraudKnowledgeManagementHeading">
+  <span>Whistle Blower Quarterly Report</span>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <!-- <fa-icon [icon]="['fas', 'sync']" [spin]="isLoading"></fa-icon> -->
+      <span jhiTranslate="fraudMgt.fraudKnowledgeManagement.home.refreshListLabel">Refresh list</span>
+    </button>
+  </div>
+</h2>
+<table class="fraud-report-table">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Full Name</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Date Issued</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of whistleBlowerReport, let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ report.fullName }}</td>
+        <td>{{ report.message }}</td>
+        <td>{{ report.message }}</td>
+        <td>{{ report.fullName }}</td>
+        </tr>
+    </tbody>
+  </table>

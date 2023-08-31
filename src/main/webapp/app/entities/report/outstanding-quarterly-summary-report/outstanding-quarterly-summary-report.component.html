@@ -1,0 +1,80 @@
+<h2 id="page-heading" data-cy="FraudKnowledgeManagementHeading">
+    <span>Outstanding Quarterly Summary Report</span>
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+            <!-- <fa-icon [icon]="['fas', 'sync']" [spin]="isLoading"></fa-icon> -->
+            <span jhiTranslate="fraudMgt.fraudKnowledgeManagement.home.refreshListLabel">Refresh list</span>
+        </button>
+    </div>
+</h2>
+<!-- Search form -->
+<form>
+    <label for="search">Search:</label>
+    <input type="text" id="search" formControlName="search">
+    <label for="property">Property:</label>
+    <select id="property" formControlName="property">
+        <option value="">Select a property</option>
+        <option value="reportNumber">Report Number</option>
+        <option value="fraudIncident">Fraud Incident</option>
+        <option value="actualIncident">Actual Incident</option>
+        <option value="attemptIncident">Attempt Incident</option>
+        <option value="reasonForFailure">Reason for Failure</option>
+    </select>
+    <button type="submit">Search</button>
+    <!-- <button type="button" (click)="cancelSearch()">Cancel</button> -->
+</form>
+
+<table class="fraud-report-table">
+    <thead>
+        <tr>
+
+            <th></th>
+            <th></th>
+            <th colspan="2">fraud cases outstanding as of the end of the previous quarter</th>
+
+            <th colspan="2">new fraud outstanding cases reported during the current quarter</th>
+
+            <th colspan="2">fraud amount recovered during the current quarter</th>
+
+            <th colspan="2">fraud amount written off during the current quarter(I)</th>
+
+            <th colspan="2">fraud outstanding at the end of the current quarter</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+
+            <th>S.No</th>
+            <th>Fraud Type</th>
+            <th>Number(A)</th>
+            <th>Amount(B)</th>
+            <th>Number(C)</th>
+            <th>Amount(D)</th>
+            <th>Number(E)</th>
+            <th>Amount(F)</th>
+            <th>Number(G)</th>
+            <th>Amount(H)</th>
+            <th>Number(I=A+C-E-G)</th>
+            <th>Amount(J=B+D+F+H)</th>
+            <th>Provision held for fraud outstanding as of end of current quarter(K)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let report of outstandingFraud, let i = index;">
+            <td>{{ i+1 }}</td>
+            <td>{{ report?.fraudType }}</td>
+            <td>{{ ((report?.reportNumber?? 0) + (report?.reportNumber?? 0)) - (report?.reportNumber?? 0) }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

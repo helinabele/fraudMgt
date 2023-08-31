@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="managerial">
+      <h2 data-cy="managerialDetailsHeading"><span jhiTranslate="fraudMgtApp.managerial.detail.title">Managerial</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ managerial.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.managerial.managerialName">Managerial Name</span></dt>
+        <dd>
+          <span>{{ managerial.managerialName }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.managerial.description">Description</span></dt>
+        <dd>
+          <span>{{ managerial.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.managerial.directorId">Director Id</span></dt>
+        <dd>
+          <span>{{ managerial.directorId }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.managerial.user">User</span></dt>
+        <dd>
+          <span>{{ managerial.user?.login }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.managerial.directors">Directors</span></dt>
+        <dd>
+          <div *ngIf="managerial.directors">
+            <a [routerLink]="['/director', managerial.directors.id, 'view']">{{ managerial.directors.directorName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/managerial', managerial.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

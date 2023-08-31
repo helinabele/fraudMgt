@@ -1,0 +1,43 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="fraudType">
+      <h2 data-cy="fraudTypeDetailsHeading"><span jhiTranslate="fraudMgtApp.fraudType.detail.title">Fraud Type</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ fraudType.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.fraudType.fraudName">Fraud Name</span></dt>
+        <dd>
+          <span>{{ fraudType.fraudName }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.fraudType.description">Description</span></dt>
+        <dd>
+          <span>{{ fraudType.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.fraudType.attachment">Attachment</span></dt>
+        <dd>
+          <div *ngIf="fraudType.attachment">
+            <a (click)="openFile(fraudType.attachment, fraudType.attachmentContentType)" jhiTranslate="entity.action.open">Open</a>
+            {{ fraudType.attachmentContentType }}, {{ byteSize(fraudType.attachment) }}
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/fraud-type', fraudType.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,208 @@
+<div>
+  <h2 id="page-heading" data-cy="AssignTaskHeading">
+    <span jhiTranslate="fraudMgtApp.assignTask.home.title">Assign Tasks</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="fraudMgtApp.assignTask.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-assign-task"
+        [routerLink]="['/assign-task/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="fraudMgtApp.assignTask.home.createLabel"> Create a new Assign Task </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="assignTasks?.length === 0">
+    <span jhiTranslate="fraudMgtApp.assignTask.home.notFound">No Assign Tasks found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="assignTasks && assignTasks.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="taskAssignmentDate">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.taskAssignmentDate">Task Assignment Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="taskStartDate">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.taskStartDate">Task Start Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="taskEndDate">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.taskEndDate">Task End Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="attachment">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.attachment">Attachment</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.description">Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="director.directorName">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.director">Director</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="manager.managerialName">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.manager">Manager</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="teamLead.teamLeadName">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.teamLead">Team Lead</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="employee.name">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.employee">Employee</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="task.title">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.task">Task</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="team.teamName">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.assignTask.team">Team</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let assignTask of assignTasks; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/assign-task', assignTask.id, 'view']">{{ assignTask.id }}</a>
+          </td>
+          <td>{{ assignTask.taskAssignmentDate | formatMediumDatetime }}</td>
+          <td>{{ assignTask.taskStartDate | formatMediumDatetime }}</td>
+          <td>{{ assignTask.taskEndDate | formatMediumDatetime }}</td>
+          <td>
+            <a
+              *ngIf="assignTask.attachment"
+              (click)="openFile(assignTask.attachment, assignTask.attachmentContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="assignTask.attachment">{{ assignTask.attachmentContentType }}, {{ byteSize(assignTask.attachment) }}</span>
+          </td>
+          <td>{{ assignTask.description }}</td>
+          <td>
+            <div *ngIf="assignTask.director">
+              <a [routerLink]="['/director', assignTask.director.id, 'view']">{{ assignTask.director.directorName }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="assignTask.manager">
+              <a [routerLink]="['/managerial', assignTask.manager.id, 'view']">{{ assignTask.manager.managerialName }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="assignTask.teamLead">
+              <a [routerLink]="['/team-lead', assignTask.teamLead.id, 'view']">{{ assignTask.teamLead.teamLeadName }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="assignTask.employee">
+              <a [routerLink]="['/employee', assignTask.employee.id, 'view']">{{ assignTask.employee.name }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="assignTask.task">
+              <a [routerLink]="['/task', assignTask.task.id, 'view']">{{ assignTask.task.title }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="assignTask.team">
+              <a [routerLink]="['/team', assignTask.team.id, 'view']">{{ assignTask.team.teamName }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/assign-task', assignTask.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/assign-task', assignTask.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(assignTask)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="assignTasks && assignTasks.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

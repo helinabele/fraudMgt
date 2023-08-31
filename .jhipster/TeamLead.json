@@ -1,0 +1,45 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122224",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "team_lead",
+  "fields": [
+    {
+      "fieldName": "teamLeadName",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "managerialId",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "TeamLead",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "teamLead",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityField": "managerialName",
+      "otherEntityName": "managerial",
+      "relationshipName": "managers",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

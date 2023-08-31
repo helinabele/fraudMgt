@@ -1,0 +1,30 @@
+{
+  "fraudMgtApp": {
+    "whistleBlowerReport": {
+      "home": {
+        "title": "Whistle Blower Reports",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Whistle Blower Report",
+        "createOrEditLabel": "Create or edit a Whistle Blower Report",
+        "notFound": "No Whistle Blower Reports found"
+      },
+      "created": "A new Whistle Blower Report is created with identifier {{ param }}",
+      "updated": "A Whistle Blower Report is updated with identifier {{ param }}",
+      "deleted": "A Whistle Blower Report is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Whistle Blower Report {{ id }}?"
+      },
+      "detail": {
+        "title": "Whistle Blower Report"
+      },
+      "id": "ID",
+      "fullName": "Full Name",
+      "genderType": "Gender Type",
+      "emailAdress": "Email Adress",
+      "phone": "Phone",
+      "organization": "Organization",
+      "message": "Message",
+      "attachment": "Attachment"
+    }
+  }
+}

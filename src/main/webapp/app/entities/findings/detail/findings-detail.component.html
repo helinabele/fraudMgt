@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="findings">
+      <h2 data-cy="findingsDetailsHeading"><span jhiTranslate="fraudMgtApp.findings.detail.title">Findings</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ findings.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.findings.findingAndAnalysis">Finding And Analysis</span></dt>
+        <dd>
+          <span>{{ findings.findingAndAnalysis }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.findings.findingAndAnalysisAnnex">Finding And Analysis Annex</span></dt>
+        <dd>
+          <div *ngIf="findings.findingAndAnalysisAnnex">
+            <a
+              (click)="openFile(findings.findingAndAnalysisAnnex, findings.findingAndAnalysisAnnexContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            {{ findings.findingAndAnalysisAnnexContentType }}, {{ byteSize(findings.findingAndAnalysisAnnex) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.findings.fraudInvestigationReport">Fraud Investigation Report</span></dt>
+        <dd>
+          <div *ngIf="findings.fraudInvestigationReport">
+            <a [routerLink]="['/fraud-investigation-report', findings.fraudInvestigationReport.id, 'view']">{{
+              findings.fraudInvestigationReport.id
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/findings', findings.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122222",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "director",
+  "fields": [
+    {
+      "fieldName": "directorName",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "required"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Director",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "director",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityField": "directorId",
+      "otherEntityName": "managerial",
+      "otherEntityRelationshipName": "directors",
+      "relationshipName": "manager",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

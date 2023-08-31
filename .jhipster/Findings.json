@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122228",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "findings",
+  "fields": [
+    {
+      "fieldName": "findingAndAnalysis",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "findingAndAnalysisAnnex",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Findings",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "fraudInvestigationReport",
+      "otherEntityRelationshipName": "findings",
+      "relationshipName": "fraudInvestigationReport",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

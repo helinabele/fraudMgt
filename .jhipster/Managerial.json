@@ -1,0 +1,46 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122223",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "managerial",
+  "fields": [
+    {
+      "fieldName": "managerialName",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "directorId",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Managerial",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "manager",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityField": "directorName",
+      "otherEntityName": "director",
+      "otherEntityRelationshipName": "manager",
+      "relationshipName": "directors",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

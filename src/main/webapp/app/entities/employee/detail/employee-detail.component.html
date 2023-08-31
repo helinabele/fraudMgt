@@ -1,0 +1,93 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="employee">
+      <h2 data-cy="employeeDetailsHeading"><span jhiTranslate="fraudMgtApp.employee.detail.title">Employee</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ employee.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.employeeCode">Employee Code</span></dt>
+        <dd>
+          <span>{{ employee.employeeCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.name">Name</span></dt>
+        <dd>
+          <span>{{ employee.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.genderType">Gender Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'fraudMgtApp.Gender.' + employee.genderType }}">{{ employee.genderType }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.dateOfBirth">Date Of Birth</span></dt>
+        <dd>
+          <span>{{ employee.dateOfBirth | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.age">Age</span></dt>
+        <dd>
+          <span>{{ employee.age }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.email">Email</span></dt>
+        <dd>
+          <span>{{ employee.email }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.employeePicture">Employee Picture</span></dt>
+        <dd>
+          <div *ngIf="employee.employeePicture">
+            <a (click)="openFile(employee.employeePicture, employee.employeePictureContentType)">
+              <img
+                [src]="'data:' + employee.employeePictureContentType + ';base64,' + employee.employeePicture"
+                style="max-width: 100%"
+                alt="employee image"
+              />
+            </a>
+            {{ employee.employeePictureContentType }}, {{ byteSize(employee.employeePicture) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.user">User</span></dt>
+        <dd>
+          <span>{{ employee.user?.login }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.director">Director</span></dt>
+        <dd>
+          <div *ngIf="employee.director">
+            <a [routerLink]="['/director', employee.director.id, 'view']">{{ employee.director.directorName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.manager">Manager</span></dt>
+        <dd>
+          <div *ngIf="employee.manager">
+            <a [routerLink]="['/managerial', employee.manager.id, 'view']">{{ employee.manager.managerialName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.teamLead">Team Lead</span></dt>
+        <dd>
+          <div *ngIf="employee.teamLead">
+            <a [routerLink]="['/team-lead', employee.teamLead.id, 'view']">{{ employee.teamLead.teamLeadName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.employee.team">Team</span></dt>
+        <dd>
+          <div *ngIf="employee.team">
+            <a [routerLink]="['/team', employee.team.id, 'view']">{{ employee.team.teamName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/employee', employee.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,188 @@
+
+entity Employee{
+    employeeCode String
+	name String required
+	genderType Gender
+	dateOfBirth Instant
+	age Integer
+	email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+	employeePicture ImageBlob
+}
+enum Gender {
+    MALE, FEMALE, OTHER
+}
+entity Director {
+    directorName String maxlength(50) required
+    description String
+}
+entity Managerial{
+    managerialName String maxlength(50)
+    description String
+    directorId Integer
+}
+entity TeamLead{
+    teamLeadName String maxlength(50)
+    description String
+    managerialId Integer
+}
+entity Task {
+    title String required
+    description String
+    dueDate LocalDate
+    attachment Blob
+    status StatusEnum
+}
+enum StatusEnum {
+    NEW, IN_PROGRESS, COMPLETED
+}
+entity AssignTask{
+    taskAssignmentDate Instant
+	taskStartDate Instant
+	taskEndDate Instant
+    attachment Blob
+	description String
+}
+entity FraudInvestigationReport {
+    title String required
+    executiveSummary String
+	introductionAnnex Blob
+    introduction String required
+    objective String required
+	objectiveAnnex Blob
+    scope String
+	scopeAnnex Blob
+    limitation String
+	limitationAnnex Blob
+    methodology String required
+	methodologyAnnex Blob
+    findingAndAnalysis String
+	findingAndAnalysisAnnex Blob
+    conclusion String
+	conclusionAnnex Blob
+    recommendation String
+	recommendationAnnex Blob
+    nameOfMembers String
+    signature String
+    references Blob
+	publicationDate Instant
+    author String
+}
+entity Findings{
+    findingAndAnalysis String
+	findingAndAnalysisAnnex Blob
+}
+entity FraudKnowledgeManagement{
+    reportNumber Integer required
+	fraudIncident FraudTypeByIncident required
+    actualIncident String required
+    attemptIncident String required
+    reasonForFailure String required
+    unit String required
+	incidentDate Instant required
+    dateOfDetection Instant required
+    reasonForDelay String
+    projectCreationDate LocalDate required
+	reportDate LocalDate required
+    suspectedFraudster SuspectedFraudster required
+	financialLossAmount Float required
+    actualFraudAmount String required
+    debitAccount String required
+    creditAccount String required
+    techniquesandTechnologiesUsed String
+	causeForAnIncident String required
+    systemAndProceduralLoophole String
+	effect String required
+	recommendationsDrawn String required
+	positionJG String
+	nameIdNo String
+	actionInvolved String
+	ngScreenerReport String
+	committeeDecision String
+    measureTaken String
+    fraudAmountRecovered String
+    fraudAmountWrittenOff String
+    previouslyHeldForFraudOutstanding String
+}
+entity FraudType{
+    fraudName String
+    description String
+    attachment Blob
+}
+enum FraudTypeByIncident {
+    ACTUAL, ATTEMPT
+}
+enum SuspectedFraudster {
+    INTERNAL, EXTERNAL
+}
+entity InternalEmployee{
+    name String required
+    position String required
+    grade String
+    experience String
+    branch String
+}
+entity ExternalEmployee{
+    name String required
+    occupation String
+    telephone String
+    address String required
+}
+entity BankAccount{
+    bankName String required
+    description String
+}
+entity BankService{
+    serviceName String required
+    description String
+}
+entity Team{
+    teamName String
+    description String
+    managerialId Integer
+    isCreator Boolean
+}
+entity WhistleBlowerReport{
+    fullName String
+	genderType Gender
+	emailAdress String
+	phone Integer
+	organization String
+	message String
+	attachment Blob
+}
+relationship ManyToOne{
+    Employee{user(login)} to User
+    Managerial{directors(directorName)} to Director{manager(directorId)}
+    TeamLead{managers(managerialName)} to Managerial
+    Team{managers(managerialName)} to Managerial
+    Employee{director(directorName)} to Director
+    Employee{manager(managerialName)} to Managerial
+    Employee{teamLead(teamLeadName)} to TeamLead
+    AssignTask{director(directorName)} to Director
+    AssignTask{manager(managerialName)} to Managerial
+    AssignTask{teamLead(teamLeadName)} to TeamLead
+    AssignTask{employee(name)} to Employee
+    AssignTask{task(title)} to Task{assignedTask}
+    FraudInvestigationReport{employee(name)} to Employee
+    FraudKnowledgeManagement{employee(name)} to Employee
+    FraudInvestigationReport{task(title)} to Task
+    FraudKnowledgeManagement{fraudInvestigationReport(title)} to FraudInvestigationReport
+    FraudKnowledgeManagement{fraudType(fraudName)} to FraudType
+    FraudKnowledgeManagement{bankAccount(bankName)} to BankAccount
+    FraudKnowledgeManagement{bankService(serviceName)} to BankService
+    FraudKnowledgeManagement{internalEmployee(name)} to InternalEmployee
+    FraudKnowledgeManagement{externalEmployee(name)} to ExternalEmployee
+    Employee{team(teamName)} to Team{employee(name)}
+    AssignTask{team(teamName)} to Team{assignTask}
+    FraudInvestigationReport{team(teamName)} to Team
+    Findings to FraudInvestigationReport{findings}
+}
+relationship OneToOne {
+    Director{user(login)} to User{director(directorName)}
+    Managerial{user(login)} to User{manager(managerialName)}
+    TeamLead{user(login)} to User{teamLead(teamLeadName)}
+    Team{teamLead(teamLeadName)} to TeamLead
+}
+paginate * with pagination
+service * with serviceImpl
+dto * with mapstruct

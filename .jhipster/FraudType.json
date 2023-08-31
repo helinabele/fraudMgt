@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825122230",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "fraud_type",
+  "fields": [
+    {
+      "fieldName": "fraudName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "attachment",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "FraudType",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

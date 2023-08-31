@@ -1,0 +1,387 @@
+<div>
+  <h2 id="page-heading" data-cy="FraudInvestigationReportHeading">
+    <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.home.title">Fraud Investigation Reports</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-fraud-investigation-report"
+        [routerLink]="['/fraud-investigation-report/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.home.createLabel"> Create a new Fraud Investigation Report </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="fraudInvestigationReports?.length === 0">
+    <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.home.notFound">No Fraud Investigation Reports found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="fraudInvestigationReports && fraudInvestigationReports.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="title">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.title">Title</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="executiveSummary">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.executiveSummary">Executive Summary</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="introductionAnnex">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.introductionAnnex">Introduction Annex</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="introduction">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.introduction">Introduction</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="objective">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.objective">Objective</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="objectiveAnnex">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.objectiveAnnex">Objective Annex</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="scope">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.scope">Scope</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="scopeAnnex">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.scopeAnnex">Scope Annex</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="limitation">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.limitation">Limitation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="limitationAnnex">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.limitationAnnex">Limitation Annex</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="methodology">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.methodology">Methodology</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="methodologyAnnex">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.methodologyAnnex">Methodology Annex</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="findingAndAnalysis">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.findingAndAnalysis">Finding And Analysis</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="findingAndAnalysisAnnex">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.findingAndAnalysisAnnex">Finding And Analysis Annex</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="conclusion">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.conclusion">Conclusion</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="conclusionAnnex">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.conclusionAnnex">Conclusion Annex</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recommendation">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.recommendation">Recommendation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recommendationAnnex">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.recommendationAnnex">Recommendation Annex</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="nameOfMembers">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.nameOfMembers">Name Of Members</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="signature">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.signature">Signature</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="references">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.references">References</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="publicationDate">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.publicationDate">Publication Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="author">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.author">Author</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="employee.name">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.employee">Employee</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="task.title">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.task">Task</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="team.teamName">
+            <div class="d-flex">
+              <span jhiTranslate="fraudMgtApp.fraudInvestigationReport.team">Team</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fraudInvestigationReport of fraudInvestigationReports; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/fraud-investigation-report', fraudInvestigationReport.id, 'view']">{{ fraudInvestigationReport.id }}</a>
+          </td>
+          <td>{{ fraudInvestigationReport.title }}</td>
+          <td>{{ fraudInvestigationReport.executiveSummary }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.introductionAnnex"
+              (click)="openFile(fraudInvestigationReport.introductionAnnex, fraudInvestigationReport.introductionAnnexContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.introductionAnnex"
+              >{{ fraudInvestigationReport.introductionAnnexContentType }}, {{ byteSize(fraudInvestigationReport.introductionAnnex) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.introduction }}</td>
+          <td>{{ fraudInvestigationReport.objective }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.objectiveAnnex"
+              (click)="openFile(fraudInvestigationReport.objectiveAnnex, fraudInvestigationReport.objectiveAnnexContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.objectiveAnnex"
+              >{{ fraudInvestigationReport.objectiveAnnexContentType }}, {{ byteSize(fraudInvestigationReport.objectiveAnnex) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.scope }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.scopeAnnex"
+              (click)="openFile(fraudInvestigationReport.scopeAnnex, fraudInvestigationReport.scopeAnnexContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.scopeAnnex"
+              >{{ fraudInvestigationReport.scopeAnnexContentType }}, {{ byteSize(fraudInvestigationReport.scopeAnnex) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.limitation }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.limitationAnnex"
+              (click)="openFile(fraudInvestigationReport.limitationAnnex, fraudInvestigationReport.limitationAnnexContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.limitationAnnex"
+              >{{ fraudInvestigationReport.limitationAnnexContentType }}, {{ byteSize(fraudInvestigationReport.limitationAnnex) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.methodology }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.methodologyAnnex"
+              (click)="openFile(fraudInvestigationReport.methodologyAnnex, fraudInvestigationReport.methodologyAnnexContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.methodologyAnnex"
+              >{{ fraudInvestigationReport.methodologyAnnexContentType }}, {{ byteSize(fraudInvestigationReport.methodologyAnnex) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.findingAndAnalysis }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.findingAndAnalysisAnnex"
+              (click)="
+                openFile(fraudInvestigationReport.findingAndAnalysisAnnex, fraudInvestigationReport.findingAndAnalysisAnnexContentType)
+              "
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.findingAndAnalysisAnnex"
+              >{{ fraudInvestigationReport.findingAndAnalysisAnnexContentType }},
+              {{ byteSize(fraudInvestigationReport.findingAndAnalysisAnnex) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.conclusion }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.conclusionAnnex"
+              (click)="openFile(fraudInvestigationReport.conclusionAnnex, fraudInvestigationReport.conclusionAnnexContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.conclusionAnnex"
+              >{{ fraudInvestigationReport.conclusionAnnexContentType }}, {{ byteSize(fraudInvestigationReport.conclusionAnnex) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.recommendation }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.recommendationAnnex"
+              (click)="openFile(fraudInvestigationReport.recommendationAnnex, fraudInvestigationReport.recommendationAnnexContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.recommendationAnnex"
+              >{{ fraudInvestigationReport.recommendationAnnexContentType }},
+              {{ byteSize(fraudInvestigationReport.recommendationAnnex) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.nameOfMembers }}</td>
+          <td>{{ fraudInvestigationReport.signature }}</td>
+          <td>
+            <a
+              *ngIf="fraudInvestigationReport.references"
+              (click)="openFile(fraudInvestigationReport.references, fraudInvestigationReport.referencesContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="fraudInvestigationReport.references"
+              >{{ fraudInvestigationReport.referencesContentType }}, {{ byteSize(fraudInvestigationReport.references) }}</span
+            >
+          </td>
+          <td>{{ fraudInvestigationReport.publicationDate | formatMediumDatetime }}</td>
+          <td>{{ fraudInvestigationReport.author }}</td>
+          <td>
+            <div *ngIf="fraudInvestigationReport.employee">
+              <a [routerLink]="['/employee', fraudInvestigationReport.employee.id, 'view']">{{ fraudInvestigationReport.employee.name }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="fraudInvestigationReport.task">
+              <a [routerLink]="['/task', fraudInvestigationReport.task.id, 'view']">{{ fraudInvestigationReport.task.title }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="fraudInvestigationReport.team">
+              <a [routerLink]="['/team', fraudInvestigationReport.team.id, 'view']">{{ fraudInvestigationReport.team.teamName }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/fraud-investigation-report', fraudInvestigationReport.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/fraud-investigation-report', fraudInvestigationReport.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(fraudInvestigationReport)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="fraudInvestigationReports && fraudInvestigationReports.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

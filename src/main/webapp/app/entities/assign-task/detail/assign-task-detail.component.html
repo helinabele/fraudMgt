@@ -1,0 +1,87 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="assignTask">
+      <h2 data-cy="assignTaskDetailsHeading"><span jhiTranslate="fraudMgtApp.assignTask.detail.title">Assign Task</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ assignTask.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.taskAssignmentDate">Task Assignment Date</span></dt>
+        <dd>
+          <span>{{ assignTask.taskAssignmentDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.taskStartDate">Task Start Date</span></dt>
+        <dd>
+          <span>{{ assignTask.taskStartDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.taskEndDate">Task End Date</span></dt>
+        <dd>
+          <span>{{ assignTask.taskEndDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.attachment">Attachment</span></dt>
+        <dd>
+          <div *ngIf="assignTask.attachment">
+            <a (click)="openFile(assignTask.attachment, assignTask.attachmentContentType)" jhiTranslate="entity.action.open">Open</a>
+            {{ assignTask.attachmentContentType }}, {{ byteSize(assignTask.attachment) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.description">Description</span></dt>
+        <dd>
+          <span>{{ assignTask.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.director">Director</span></dt>
+        <dd>
+          <div *ngIf="assignTask.director">
+            <a [routerLink]="['/director', assignTask.director.id, 'view']">{{ assignTask.director.directorName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.manager">Manager</span></dt>
+        <dd>
+          <div *ngIf="assignTask.manager">
+            <a [routerLink]="['/managerial', assignTask.manager.id, 'view']">{{ assignTask.manager.managerialName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.teamLead">Team Lead</span></dt>
+        <dd>
+          <div *ngIf="assignTask.teamLead">
+            <a [routerLink]="['/team-lead', assignTask.teamLead.id, 'view']">{{ assignTask.teamLead.teamLeadName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.employee">Employee</span></dt>
+        <dd>
+          <div *ngIf="assignTask.employee">
+            <a [routerLink]="['/employee', assignTask.employee.id, 'view']">{{ assignTask.employee.name }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.task">Task</span></dt>
+        <dd>
+          <div *ngIf="assignTask.task">
+            <a [routerLink]="['/task', assignTask.task.id, 'view']">{{ assignTask.task.title }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.assignTask.team">Team</span></dt>
+        <dd>
+          <div *ngIf="assignTask.team">
+            <a [routerLink]="['/team', assignTask.team.id, 'view']">{{ assignTask.team.teamName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/assign-task', assignTask.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

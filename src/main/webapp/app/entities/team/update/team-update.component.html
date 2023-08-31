@@ -1,0 +1,102 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-team-heading" data-cy="TeamCreateUpdateHeading" jhiTranslate="fraudMgtApp.team.home.createOrEditLabel">
+        Create or edit a Team
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="fraudMgtApp.team.teamName" for="field_teamName">Team Name</label>
+          <input type="text" class="form-control" name="teamName" id="field_teamName" data-cy="teamName" formControlName="teamName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="fraudMgtApp.team.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="fraudMgtApp.team.managerialId" for="field_managerialId">Managerial Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="managerialId"
+            id="field_managerialId"
+            data-cy="managerialId"
+            formControlName="managerialId"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="fraudMgtApp.team.isCreator" for="field_isCreator">Is Creator</label>
+          <input type="checkbox" class="form-check" name="isCreator" id="field_isCreator" data-cy="isCreator" formControlName="isCreator" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="fraudMgtApp.team.teamLead" for="field_teamLead">Team Lead</label>
+          <select
+            class="form-control"
+            id="field_teamLead"
+            data-cy="teamLead"
+            name="teamLead"
+            formControlName="teamLead"
+            [compareWith]="compareTeamLead"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="teamLeadOption" *ngFor="let teamLeadOption of teamLeadsSharedCollection">
+              {{ teamLeadOption.teamLeadName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="fraudMgtApp.team.managers" for="field_managers">Managers</label>
+          <select
+            class="form-control"
+            id="field_managers"
+            data-cy="managers"
+            name="managers"
+            formControlName="managers"
+            [compareWith]="compareManagerial"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="managerialOption" *ngFor="let managerialOption of managerialsSharedCollection">
+              {{ managerialOption.managerialName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

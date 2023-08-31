@@ -1,0 +1,40 @@
+<h2 id="page-heading" data-cy="FraudKnowledgeManagementHeading">
+  <span>Monthly Fraud Attempt Report</span>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <!-- <fa-icon [icon]="['fas', 'sync']" [spin]="isLoading"></fa-icon> -->
+      <span jhiTranslate="fraudMgt.fraudKnowledgeManagement.home.refreshListLabel">Refresh list</span>
+    </button>
+  </div>
+</h2>
+<table class="fraud-report-table">
+    <thead>
+      <tr>
+        <th>Case Title</th>
+        <th>Payment System Component</th>
+        <th>Amount Involved</th>
+        <th>Number of Frauds Attempted but Faild</th>
+        <th>Number of Frauds Happened</th>
+        <th>Subsequent Measures Taken Related to the Fraud/Incident</th>
+        <th></th>
+        <!-- <th>sum</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of fraudKnowledgeManagment, let i = index">
+        <td>{{ i+1 }}</td>
+        <td>{{ report?.unit }}</td>
+        <td>{{ report?.creditAccount}}</td>
+        <td>{{ report?.actualFraudAmount}}</td>
+        <td>{{ report?.financialLossAmount}}</td>
+        <td>
+          <ng-container *ngFor="let i of [1, 2]">
+            {{ report?.reportNumber }}
+          </ng-container>
+        </td>
+        <td>{{ 2 * (report?.reportNumber ?? 0) }}</td>
+        <td>{{ (report?.reportNumber ?? 0) + (report?.reportNumber ?? 0) }}</td>
+      </tr>
+    </tbody>
+  </table>

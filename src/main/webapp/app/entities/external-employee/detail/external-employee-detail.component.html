@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="externalEmployee">
+      <h2 data-cy="externalEmployeeDetailsHeading">
+        <span jhiTranslate="fraudMgtApp.externalEmployee.detail.title">External Employee</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ externalEmployee.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.externalEmployee.name">Name</span></dt>
+        <dd>
+          <span>{{ externalEmployee.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.externalEmployee.occupation">Occupation</span></dt>
+        <dd>
+          <span>{{ externalEmployee.occupation }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.externalEmployee.telephone">Telephone</span></dt>
+        <dd>
+          <span>{{ externalEmployee.telephone }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.externalEmployee.address">Address</span></dt>
+        <dd>
+          <span>{{ externalEmployee.address }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/external-employee', externalEmployee.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

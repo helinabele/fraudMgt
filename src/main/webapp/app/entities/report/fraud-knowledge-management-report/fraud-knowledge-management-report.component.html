@@ -1,0 +1,75 @@
+<!-- Search form -->
+<h2 id="page-heading" data-cy="FraudKnowledgeManagementHeading">
+  <span>Fraud Knowledge Managements Report</span>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <!-- <fa-icon [icon]="['fas', 'sync']" [spin]="isLoading"></fa-icon> -->
+      <span jhiTranslate="fraudMgt.fraudKnowledgeManagement.home.refreshListLabel">Refresh list</span>
+    </button>
+  </div>
+</h2>
+
+<form [formGroup]="searchForm">
+  <label for="search">Search:</label>
+  <input type="text" id="search" formControlName="search">
+  <label for="property">Property:</label>
+  <select id="property" formControlName="property">
+    <option value="">Select a property</option>
+    <option value="reportNumber">Report Number</option>
+    <option value="fraudIncident">Fraud Incident</option>
+    <option value="actualIncident">Actual Incident</option>
+    <option value="attemptIncident">Attempt Incident</option>
+    <option value="reasonForFailure">Reason for Failure</option>
+  </select>
+  <button type="submit">Search</button>
+  <!-- <button type="button" (click)="cancelSearch()">Cancel</button> -->
+</form>
+
+<table class="fraud-report-table">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Report Number</th>
+      <th>Case Title</th>
+      <th>Fraud Incident</th>
+      <th>Actual Incident</th>
+      <th>Attempted Incident</th>
+      <th>Unit</th>
+      <th>Incident Date</th>
+      <th>Date of Detection</th>
+      <th>Employee</th>
+
+      <th>Fraud Type</th>
+
+    </tr>
+  </thead>
+  <tbody *ngIf="fraudKnowledgeManagements?.length">
+    <tr *ngFor="let report of fraudKnowledgeManagements, let i = index">
+      <td>{{i+1}}</td>
+      <td>{{ report.reportNumber }}</td>
+      <td>{{ report.fraudInvestigationReport?.title }}</td>
+      <td>{{ report.fraudIncident }}</td>
+      <td>{{ report.actualIncident }}</td>
+      <td>{{ report.attemptIncident }}</td>
+      <td>{{ report.unit }}</td>
+      <td>{{ report.incidentDate}}</td>
+      <td>{{ report.dateOfDetection}}</td>
+      <td>{{ report.employee?.name }}</td>
+      <td>{{ report.fraudType?.fraudName }}</td>
+
+    </tr>
+  </tbody>
+</table>
+
+<!-- Showing search results count -->
+<p>Showing {{fraudKnowledgeManagements?.length}} of {{totalItems}} results</p>
+
+<!-- Search buttons -->
+<!-- <div class="search-buttons">
+  <button (click)="searchByReportNumber()">Search by Report Number</button>
+  <button (click)="searchByFraudIncident()">Search by Fraud Incident</button>
+  <button (click)="searchByActualIncident()">Search by Actual Incident</button>
+  <button (click)="searchByAttemptIncident()">Search by Attempt Incident</button>
+  <button (click)="searchByReasonForFailure()">Search by Reason for Failure</button>
+</div> -->

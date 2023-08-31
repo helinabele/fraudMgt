@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="teamLead">
+      <h2 data-cy="teamLeadDetailsHeading"><span jhiTranslate="fraudMgtApp.teamLead.detail.title">Team Lead</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ teamLead.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.teamLead.teamLeadName">Team Lead Name</span></dt>
+        <dd>
+          <span>{{ teamLead.teamLeadName }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.teamLead.description">Description</span></dt>
+        <dd>
+          <span>{{ teamLead.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.teamLead.managerialId">Managerial Id</span></dt>
+        <dd>
+          <span>{{ teamLead.managerialId }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.teamLead.user">User</span></dt>
+        <dd>
+          <span>{{ teamLead.user?.login }}</span>
+        </dd>
+        <dt><span jhiTranslate="fraudMgtApp.teamLead.managers">Managers</span></dt>
+        <dd>
+          <div *ngIf="teamLead.managers">
+            <a [routerLink]="['/managerial', teamLead.managers.id, 'view']">{{ teamLead.managers.managerialName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/team-lead', teamLead.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
