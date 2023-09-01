@@ -14,10 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -63,6 +66,21 @@ public class WhistleBlowerReportResource {
         if (whistleBlowerReportDTO.getId() != null) {
             throw new BadRequestAlertException("A new whistleBlowerReport cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        String smsUrl = "http://172.30.6.15:8890/message?from=CBE&to=";
+        String text = "Dear" + '/' + "Sir " + whistleBlowerReportDTO.getFullName() +
+                ", we are grateful for you taking the time and effort to bring this matter to our attention and we would like to assure you that your concerns will be handled shortly. Please provide us further details if you could through email --------- "                                                                                                                                                      
+                + '&' + "telephone ------------.";
+        String restURL = "&text=" + text +
+                "&user=FRAUD&pass=Fraudpwd@123&id&dlrreq=0";
+
+        String urlSMS2 = smsUrl + whistleBlowerReportDTO.getPhone() + restURL;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> request = new HttpEntity<>(urlSMS2, headers);
+        restTemplate.postForObject(urlSMS2, request, String.class);
+        
         WhistleBlowerReportDTO result = whistleBlowerReportService.save(whistleBlowerReportDTO);
         return ResponseEntity
             .created(new URI("/api/whistle-blower-reports/" + result.getId()))
