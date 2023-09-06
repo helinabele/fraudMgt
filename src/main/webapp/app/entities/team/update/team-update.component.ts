@@ -11,6 +11,8 @@ import { ITeamLead } from 'app/entities/team-lead/team-lead.model';
 import { TeamLeadService } from 'app/entities/team-lead/service/team-lead.service';
 import { IManagerial } from 'app/entities/managerial/managerial.model';
 import { ManagerialService } from 'app/entities/managerial/service/managerial.service';
+import { EmployeeService } from 'app/entities/employee/service/employee.service';
+import { IEmployee } from 'app/entities/employee/employee.model';
 
 @Component({
   selector: 'jhi-team-update',
@@ -19,7 +21,7 @@ import { ManagerialService } from 'app/entities/managerial/service/managerial.se
 export class TeamUpdateComponent implements OnInit {
   isSaving = false;
   team: ITeam | null = null;
-
+  employees: IEmployee[] | null = [];
   teamLeadsSharedCollection: ITeamLead[] = [];
   managerialsSharedCollection: IManagerial[] = [];
 
@@ -30,7 +32,8 @@ export class TeamUpdateComponent implements OnInit {
     protected teamFormService: TeamFormService,
     protected teamLeadService: TeamLeadService,
     protected managerialService: ManagerialService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    private employeeService: EmployeeService
   ) {}
 
   compareTeamLead = (o1: ITeamLead | null, o2: ITeamLead | null): boolean => this.teamLeadService.compareTeamLead(o1, o2);
@@ -113,5 +116,12 @@ export class TeamUpdateComponent implements OnInit {
         )
       )
       .subscribe((managerials: IManagerial[]) => (this.managerialsSharedCollection = managerials));
+  }
+
+  protected getEmployees(): void 
+  {
+    this.employeeService.query().subscribe(empl => {
+      this.employees = empl.body;
+    })
   }
 }

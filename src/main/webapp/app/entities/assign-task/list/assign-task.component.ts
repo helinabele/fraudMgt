@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IAssignTask } from '../assign-task.model';
@@ -11,6 +11,14 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, AssignTaskService } from '../service/assign-task.service';
 import { AssignTaskDeleteDialogComponent } from '../delete/assign-task-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
+import { EmployeeService } from 'app/entities/employee/service/employee.service';
+import { DirectorService } from 'app/entities/director/service/director.service';
+import { TeamLeadService } from 'app/entities/team-lead/service/team-lead.service';
+import { ManagerialService } from 'app/entities/managerial/service/managerial.service';
+import { Authority } from 'app/config/authority.constants';
+import { IDirector } from 'app/entities/director/director.model';
+import { IManagerial } from 'app/entities/managerial/managerial.model';
+import { ITeamLead } from 'app/entities/team-lead/team-lead.model';
 
 @Component({
   selector: 'jhi-assign-task',
@@ -26,14 +34,22 @@ export class AssignTaskComponent implements OnInit {
   itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page = 1;
+  assignTask: IAssignTask | null = null;
+  account: any;
+  role?: Authority;
+  roleId?: string;
 
   constructor(
     protected assignTaskService: AssignTaskService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
-  ) {}
+    protected modalService: NgbModal,
+    private employeeService: EmployeeService,
+    private directorService: DirectorService,
+    private managerService: ManagerialService,
+    private teamLeadService: TeamLeadService,
+  ) { }
 
   trackId = (_index: number, item: IAssignTask): string => this.assignTaskService.getAssignTaskIdentifier(item);
 
@@ -41,6 +57,50 @@ export class AssignTaskComponent implements OnInit {
     this.load();
   }
 
+  identifyUserRole(): void {
+    this.account = JSON.parse(localStorage.getItem('user') ?? '{}');
+    if (this.account.authorities.includes(Authority.DIRECTOR)) {
+      this.role = Authority.DIRECTOR;
+      this.getDirector();
+    } else if (this.account.authorities.includes(Authority.MANAGER)) {
+      this.role = Authority.MANAGER;
+      this.getManager();
+    } else if (this.account.authorities.includes(Authority.TEAM_LEADER)) {
+      this.role = Authority.TEAM_LEADER;
+      this.getTeamLead();
+    }
+
+  }
+  getDirector(): void {
+    this.directorService
+      .query()
+      .pipe(map((res: HttpResponse<IDirector[]>) => res.body ?? []))
+      .subscribe((directors: IDirector[]) => {
+        this.checkAuthority(directors);
+      });
+  }
+  getManager(): void {
+    this.managerService
+      .query()
+      .pipe(map((res: HttpResponse<IManagerial[]>) => res.body ?? []))
+      .subscribe((managers: IManagerial[]) => {
+        this.checkAuthority(managers);
+      });
+  }
+  getTeamLead(): void {
+    this.teamLeadService
+      .query()
+      .pipe(map((res: HttpResponse<ITeamLead[]>) => res.body ?? []))
+      .subscribe((teamLeads: ITeamLead[]) => {
+        this.checkAuthority(teamLeads);
+      })
+  }
+  checkAuthority(values: any[]): void {
+    this.roleId = values.find(t => t.user?.id === this.account.id)?.id;
+    if (this.roleId) {
+      this.load();
+    }
+  }
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
   }
