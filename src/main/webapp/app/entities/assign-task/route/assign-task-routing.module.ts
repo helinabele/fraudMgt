@@ -41,6 +41,14 @@ const assignTaskRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: ':id/assign',
+    component: AssignTaskUpdateComponent,
+    resolve: {
+      task: AssignTaskRoutingResolveService
+    },
+    canActivate: [UserRouteAccessService]
+  }
 ];
 
 @NgModule({

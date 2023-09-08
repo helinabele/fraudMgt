@@ -8,14 +8,12 @@
         <span jhiTranslate="fraudMgtApp.whistleBlowerReport.home.refreshListLabel">Refresh list</span>
       </button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
+      <button id="jh-create-entity" data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-whistle-blower-report"
-        [routerLink]="['/whistle-blower-report/new']"
-      >
+        [routerLink]="['/whistle-blower-report/new']">
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="fraudMgtApp.whistleBlowerReport.home.createLabel"> Create a new Whistle Blower Report </span>
+        <span jhiTranslate="fraudMgtApp.whistleBlowerReport.home.createLabel"> Create a new Whistle Blower Report
+        </span>
       </button>
     </div>
   </h2>
@@ -23,136 +21,128 @@
   <jhi-alert-error></jhi-alert-error>
 
   <jhi-alert></jhi-alert>
-
-  <div class="alert alert-warning" id="no-result" *ngIf="whistleBlowerReports?.length === 0">
-    <span jhiTranslate="fraudMgtApp.whistleBlowerReport.home.notFound">No Whistle Blower Reports found</span>
-  </div>
-
-  <div class="table-responsive table-entities" id="entities" *ngIf="whistleBlowerReports && whistleBlowerReports.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span jhiTranslate="global.field.id">ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="fullName">
-            <div class="d-flex">
-              <span jhiTranslate="fraudMgtApp.whistleBlowerReport.fullName">Full Name</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="genderType">
-            <div class="d-flex">
-              <span jhiTranslate="fraudMgtApp.whistleBlowerReport.genderType">Gender Type</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="emailAdress">
-            <div class="d-flex">
-              <span jhiTranslate="fraudMgtApp.whistleBlowerReport.emailAdress">Email Adress</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="phone">
-            <div class="d-flex">
-              <span jhiTranslate="fraudMgtApp.whistleBlowerReport.phone">Phone</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="organization">
-            <div class="d-flex">
-              <span jhiTranslate="fraudMgtApp.whistleBlowerReport.organization">Organization</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="message">
-            <div class="d-flex">
-              <span jhiTranslate="fraudMgtApp.whistleBlowerReport.message">Message</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="attachment">
-            <div class="d-flex">
-              <span jhiTranslate="fraudMgtApp.whistleBlowerReport.attachment">Attachment</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let whistleBlowerReport of whistleBlowerReports; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'view']">{{ whistleBlowerReport.id }}</a>
-          </td>
-          <td>{{ whistleBlowerReport.fullName }}</td>
-          <td jhiTranslate="{{ 'fraudMgtApp.Gender.' + whistleBlowerReport.genderType }}">{{ whistleBlowerReport.genderType }}</td>
-          <td>{{ whistleBlowerReport.emailAdress }}</td>
-          <td>{{ whistleBlowerReport.phone }}</td>
-          <td>{{ whistleBlowerReport.organization }}</td>
-          <td>{{ whistleBlowerReport.message }}</td>
-          <td>
-            <a
-              *ngIf="whistleBlowerReport.attachment"
-              (click)="openFile(whistleBlowerReport.attachment, whistleBlowerReport.attachmentContentType)"
-              jhiTranslate="entity.action.open"
-              >Open</a
-            >
-            <span *ngIf="whistleBlowerReport.attachment"
-              >{{ whistleBlowerReport.attachmentContentType }}, {{ byteSize(whistleBlowerReport.attachment) }}</span
-            >
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
-
-              <button
-                type="submit"
-                [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
-
-              <button type="submit" (click)="delete(whistleBlowerReport)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div *ngIf="whistleBlowerReports && whistleBlowerReports.length > 0">
-    <div class="d-flex justify-content-center">
-      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+  <div *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_PRESIDENT', 'ROLE_VICE_PRESIDENT']">
+    <div class="alert alert-warning" id="no-result" *ngIf="whistleBlowerReports?.length === 0">
+      <span jhiTranslate="fraudMgtApp.whistleBlowerReport.home.notFound">No Whistle Blower Reports found</span>
     </div>
 
-    <div class="d-flex justify-content-center">
-      <ngb-pagination
-        [collectionSize]="totalItems"
-        [page]="page"
-        [pageSize]="itemsPerPage"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="navigateToPage($event)"
-      ></ngb-pagination>
+    <div class="table-responsive table-entities" id="entities"
+      *ngIf="whistleBlowerReports && whistleBlowerReports.length > 0">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending"
+            (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fullName">
+              <div class="d-flex">
+                <span jhiTranslate="fraudMgtApp.whistleBlowerReport.fullName">Full Name</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="genderType">
+              <div class="d-flex">
+                <span jhiTranslate="fraudMgtApp.whistleBlowerReport.genderType">Gender Type</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="emailAdress">
+              <div class="d-flex">
+                <span jhiTranslate="fraudMgtApp.whistleBlowerReport.emailAdress">Email Adress</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="phone">
+              <div class="d-flex">
+                <span jhiTranslate="fraudMgtApp.whistleBlowerReport.phone">Phone</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="organization">
+              <div class="d-flex">
+                <span jhiTranslate="fraudMgtApp.whistleBlowerReport.organization">Organization</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="message">
+              <div class="d-flex">
+                <span jhiTranslate="fraudMgtApp.whistleBlowerReport.message">Message</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="attachment">
+              <div class="d-flex">
+                <span jhiTranslate="fraudMgtApp.whistleBlowerReport.attachment">Attachment</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let whistleBlowerReport of whistleBlowerReports; trackBy: trackId" data-cy="entityTable">
+            <td>
+              <a [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'view']">{{ whistleBlowerReport.id
+                }}</a>
+            </td>
+            <td>{{ whistleBlowerReport.fullName }}</td>
+            <td jhiTranslate="{{ 'fraudMgtApp.Gender.' + whistleBlowerReport.genderType }}">{{
+              whistleBlowerReport.genderType }}</td>
+            <td>{{ whistleBlowerReport.emailAdress }}</td>
+            <td>{{ whistleBlowerReport.phone }}</td>
+            <td>{{ whistleBlowerReport.organization }}</td>
+            <td>{{ whistleBlowerReport.message }}</td>
+            <td>
+              <a *ngIf="whistleBlowerReport.attachment"
+                (click)="openFile(whistleBlowerReport.attachment, whistleBlowerReport.attachmentContentType)"
+                jhiTranslate="entity.action.open">Open</a>
+              <span *ngIf="whistleBlowerReport.attachment">{{ whistleBlowerReport.attachmentContentType }}, {{
+                byteSize(whistleBlowerReport.attachment) }}</span>
+            </td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button type="submit" [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'view']"
+                  class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <fa-icon icon="eye"></fa-icon>
+                  <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                </button>
+
+                <button type="submit" [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'edit']"
+                  class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                </button>
+                <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_PRESIDENT', 'ROLE_VICE_PRESIDENT']" type="submit"
+                  [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'assign']"
+                  class="btn btn-info btn-sm" data-cy="entityAssignButton">
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <span class="d-none d-md-inline" jhiTranslate="entity.action.Assign">Assign</span>
+                </button>
+                <button type="submit" (click)="delete(whistleBlowerReport)" class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton">
+                  <fa-icon icon="times"></fa-icon>
+                  <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="whistleBlowerReports && whistleBlowerReports.length > 0">
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination [collectionSize]="totalItems" [page]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+          [rotate]="true" [boundaryLinks]="true" (pageChange)="navigateToPage($event)"></ngb-pagination>
+      </div>
     </div>
   </div>
 </div>

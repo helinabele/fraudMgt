@@ -117,7 +117,8 @@
       "open": "Open",
       "save": "Save",
       "view": "View",
-      "show": "Show {{otherEntity}}"
+      "show": "Show {{otherEntity}}",
+      "assign": "Assign"
     },
     "detail": {
       "field": "Field",

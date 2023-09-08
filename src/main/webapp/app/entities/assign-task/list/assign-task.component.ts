@@ -19,6 +19,7 @@ import { Authority } from 'app/config/authority.constants';
 import { IDirector } from 'app/entities/director/director.model';
 import { IManagerial } from 'app/entities/managerial/managerial.model';
 import { ITeamLead } from 'app/entities/team-lead/team-lead.model';
+import { IEmployee } from 'app/entities/employee/employee.model';
 
 @Component({
   selector: 'jhi-assign-task',
@@ -54,6 +55,7 @@ export class AssignTaskComponent implements OnInit {
   trackId = (_index: number, item: IAssignTask): string => this.assignTaskService.getAssignTaskIdentifier(item);
 
   ngOnInit(): void {
+    this.identifyUserRole();
     this.load();
   }
 
@@ -68,8 +70,10 @@ export class AssignTaskComponent implements OnInit {
     } else if (this.account.authorities.includes(Authority.TEAM_LEADER)) {
       this.role = Authority.TEAM_LEADER;
       this.getTeamLead();
+    } else if (this.account.authorities.includes(Authority.AUDITOR)) {
+      this.role = Authority.AUDITOR;
+      this.getEmployee();
     }
-
   }
   getDirector(): void {
     this.directorService
@@ -94,6 +98,14 @@ export class AssignTaskComponent implements OnInit {
       .subscribe((teamLeads: ITeamLead[]) => {
         this.checkAuthority(teamLeads);
       })
+  }
+  getEmployee(): void {
+    this.employeeService
+    .query()
+    .pipe(map((res: HttpResponse<IEmployee[]>) => res.body ?? []))
+    .subscribe((employees: IEmployee[]) => {
+      this.checkAuthority(employees);
+    })
   }
   checkAuthority(values: any[]): void {
     this.roleId = values.find(t => t.user?.id === this.account.id)?.id;

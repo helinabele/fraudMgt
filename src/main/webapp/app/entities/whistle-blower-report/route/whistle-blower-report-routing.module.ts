@@ -7,6 +7,7 @@ import { WhistleBlowerReportDetailComponent } from '../detail/whistle-blower-rep
 import { WhistleBlowerReportUpdateComponent } from '../update/whistle-blower-report-update.component';
 import { WhistleBlowerReportRoutingResolveService } from './whistle-blower-report-routing-resolve.service';
 import { ASC } from 'app/config/navigation.constants';
+import { AssignTaskUpdateComponent } from 'app/entities/assign-task/update/assign-task-update.component';
 
 const whistleBlowerReportRoute: Routes = [
   {
@@ -36,6 +37,14 @@ const whistleBlowerReportRoute: Routes = [
     resolve: {
       whistleBlowerReport: WhistleBlowerReportRoutingResolveService,
     },
+  },
+  {
+    path: ':id/assign',
+    component: AssignTaskUpdateComponent,
+    resolve: {
+      task: WhistleBlowerReportRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
   },
 ];
 
