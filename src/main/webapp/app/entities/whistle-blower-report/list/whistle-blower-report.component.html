@@ -32,12 +32,12 @@
         <thead>
           <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending"
             (sortChange)="navigateToWithComponentValues()">
-            <th scope="col" jhiSortBy="id">
+            <!-- <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
-            </th>
+            </th> -->
             <th scope="col" jhiSortBy="fullName">
               <div class="d-flex">
                 <span jhiTranslate="fraudMgtApp.whistleBlowerReport.fullName">Full Name</span>
@@ -85,10 +85,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let whistleBlowerReport of whistleBlowerReports; trackBy: trackId" data-cy="entityTable">
-            <td>
+            <!-- <td>
               <a [routerLink]="['/whistle-blower-report', whistleBlowerReport.id, 'view']">{{ whistleBlowerReport.id
                 }}</a>
-            </td>
+            </td> -->
             <td>{{ whistleBlowerReport.fullName }}</td>
             <td jhiTranslate="{{ 'fraudMgtApp.Gender.' + whistleBlowerReport.genderType }}">{{
               whistleBlowerReport.genderType }}</td>

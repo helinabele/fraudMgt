@@ -43,9 +43,9 @@
       </thead>
       <tbody *ngIf="users">
         <tr *ngFor="let user of users; trackBy: trackIdentity">
-          <td>
+          <!-- <td>
             <a [routerLink]="['./', user.login, 'view']">{{ user.id }}</a>
-          </td>
+          </td> -->
           <td>{{ user.login }}</td>
           <td>{{ user.email }}</td>
           <td>

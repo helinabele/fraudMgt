@@ -33,12 +33,12 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
+          <!-- <th scope="col" jhiSortBy="id">
             <div class="d-flex">
               <span jhiTranslate="global.field.id">ID</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
-          </th>
+          </th> -->
           <th scope="col" jhiSortBy="taskAssignmentDate">
             <div class="d-flex">
               <span jhiTranslate="fraudMgtApp.assignTask.taskAssignmentDate">Task Assignment Date</span>
@@ -110,9 +110,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let assignTask of assignTasks; trackBy: trackId" data-cy="entityTable">
-          <td>
+          <!-- <td>
             <a [routerLink]="['/assign-task', assignTask.id, 'view']">{{ assignTask.id }}</a>
-          </td>
+          </td> -->
           <td>{{ assignTask.taskAssignmentDate | formatMediumDatetime }}</td>
           <td>{{ assignTask.taskStartDate | formatMediumDatetime }}</td>
           <td>{{ assignTask.taskEndDate | formatMediumDatetime }}</td>
